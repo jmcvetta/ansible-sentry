@@ -1,5 +1,5 @@
-Role Name
-=========
+jmcvetta.sentry
+===============
 
 Ansible role to deploy [Sentry](http://getsentry.com).
 
@@ -32,8 +32,15 @@ sentry_client_public_key: VaiQueughaisha5phael1eet
 sentry_client_secret_key: faiphedev4ievei9haiMie5oW8eek6az
 ```
 
-The `pwgen` utility (`sudo apt-get install pwgen`) can be used to generate a
-strong secret key.
+The `pwgen` utility can be used to generate strong random strings:
+
+```bash
+# Install pwgen
+sudo apt-get install pwgen
+
+# Generate one 32-character random string
+pwgen -1 32
+```
 
 
 ### Other variables
