@@ -13,14 +13,23 @@ Ubuntu 14.04LTS
 Role Variables
 --------------
 
-You *must* define a variable `sentry_secret_key` with a long random string.
-The `pwgen` utility (`sudo apt-get install pwgen`) can be used to generate
-a strong secret key.  E.G.
+## Cryptographic keys
+
+You *must* define several cryptographic key variables with long, *unique*
+strings.  Do not reuse these keys, it is a security risk.  
 
 '''yaml
-# Do not use this key - generate your own!
+# Do not use these keys - generate your own!
 sentry_secret_key: ahrujiepheeTh6aex1jiyaejuxageyei
+sentry_client_public_key: VaiQueughaisha5phael1eet
+sentry_client_secret_key: faiphedev4ievei9haiMie5oW8eek6az
 '''
+
+The `pwgen` utility (`sudo apt-get install pwgen`) can be used to generate a
+strong secret key.
+
+
+## Other variables
 
 Other variables have defaults:
 

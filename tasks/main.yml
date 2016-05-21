@@ -45,6 +45,20 @@
 
 - name: Ensure database is migrated
   shell: "SENTRY_CONF=/etc/sentry {{ sentry_venv }}/bin/sentry upgrade"
+  register: result
+  changed_when: "result.stdout.find('Migrating forwards') != -1"
+
+
+- name: Ensure boostrap script is present
+  template:
+    src: sentry-bootstrap.py.j2
+    dest: /root/sentry-boostrap.py
+
+
+- name: Ensure Sentry project is bootstrapped
+  shell: "SENTRY_CONF=/etc/sentry {{ sentry_venv }}/bin/python /root/sentry-boostrap.py"
+  register: result
+  changed_when: "result.stdout == 'changed'"
 
 
 - name: Ensure group exists
@@ -99,7 +113,7 @@
     state: up
     timeout: 9
     user: sentry
-    command: "{{ sentry_venv }}/bin/sentry run worker --pidfile=/var/run/sentry/celery-worker.pid"
+    command: "{{ sentry_venv }}/bin/sentry celery worker --pidfile=/var/run/sentry/celery-worker.pid"
     env_vars:
       SENTRY_CONF: /etc/sentry
   notify: Restart sentry
@@ -112,7 +126,7 @@
     state: up
     timeout: 9
     user: sentry
-    command: "{{ sentry_venv }}/bin/sentry run cron --pidfile=/var/run/sentry/celery-beat.pid"
+    command: "{{ sentry_venv }}/bin/sentry celery beat --pidfile=/var/run/sentry/celery-beat.pid"
     env_vars:
       SENTRY_CONF: /etc/sentry
   notify: Restart sentry

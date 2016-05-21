@@ -34,3 +34,10 @@ sentry_redis_port: 6379
 #
 sentry_web_host: '0.0.0.0'
 sentry_web_port: 9000
+
+#
+# Bootstrap
+#
+sentry_org_name: "My Organization"
+sentry_team_name: "My Team"
+sentry_project_name: "My Project"
