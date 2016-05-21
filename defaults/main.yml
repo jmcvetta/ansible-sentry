@@ -40,6 +40,6 @@ sentry_port: 9000
 #
 # Bootstrap
 #
-sentry_org_name: "My Organization"
-sentry_team_name: "My Team"
+sentry_org_name: Sentry
+sentry_team_name: Sentry
 sentry_project_name: "My Project"
