@@ -1,5 +1,5 @@
-Role Name
-=========
+jmcvetta.sentry
+===============
 
 Ansible role to deploy [Sentry](http://getsentry.com).
 
