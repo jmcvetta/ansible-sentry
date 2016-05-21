@@ -1,2 +1,7 @@
 ---
-# vars file for jmcvetta.sentry
+
+sentry_venv: /opt/venv/sentry
+sentry_components:
+  - celery-beat
+  - celery-worker
+  - sentry

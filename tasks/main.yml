@@ -1,2 +1,125 @@
+# vim:ft=ansible:
+#
+# Based on:
+#     https://docs.getsentry.com/on-premise/server/installation/
 ---
-# tasks file for jmcvetta.sentry
+
+- name: Ensure APT packages are installed
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gcc
+    - libffi-dev
+    - libjpeg-dev
+    - libpq-dev
+    - libxml2-dev
+    - libxslt-dev
+    - libxslt1-dev
+    - libyaml-dev
+    - python-dev
+    - python-pip
+    - python-setuptools
+    - python-virtualenv
+
+
+- name: Ensure sentry is installed
+  pip:
+    virtualenv: "{{ sentry_venv }}"
+    name: sentry
+    state: present
+
+- name: Ensure /etc/sentry exists
+  file:
+    path: /etc/sentry
+    state: directory
+
+- name: Ensure Sentry is configured
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/sentry/{{ item }}"
+  with_items:
+    - config.yml
+    - sentry.conf.py
+
+
+- name: Ensure database is migrated
+  shell: "SENTRY_CONF=/etc/sentry {{ sentry_venv }}/bin/sentry upgrade"
+
+
+- name: Ensure group exists
+  group:
+    name: sentry
+    state: present
+
+
+- name: Ensure user exists
+  user:
+    name: sentry
+    group: sentry
+    home: /nonexistant
+    shell: /bin/false
+    state: present
+
+
+- name: Ensure /var/run/sentry exists
+  file:
+    path: /var/run/sentry
+    state: directory
+    owner: sentry
+    group: sentry
+
+
+- name: Ensure log folders exist
+  file:
+    path: "/var/log/{{ item }}"
+    state: directory
+    owner: sentry
+    group: sentry
+  with_items: "{{ sentry_components }}"
+
+
+- name: Ensure sentry runit script is enabled
+  runit:
+    name: sentry
+    enabled: true
+    state: up
+    timeout: 9
+    user: sentry
+    command: "{{ sentry_venv }}/bin/sentry run web"
+    env_vars:
+      SENTRY_CONF: /etc/sentry
+  notify: Restart sentry
+
+
+- name: Ensure celery-worker runit script is enabled
+  runit:
+    name: celery-worker
+    enabled: true
+    state: up
+    timeout: 9
+    user: sentry
+    command: "{{ sentry_venv }}/bin/sentry run worker --pidfile=/var/run/sentry/celery-worker.pid"
+    env_vars:
+      SENTRY_CONF: /etc/sentry
+  notify: Restart sentry
+
+
+- name: Ensure Runit script is enabled
+  runit:
+    name: celery-beat
+    enabled: true
+    state: up
+    timeout: 9
+    user: sentry
+    command: "{{ sentry_venv }}/bin/sentry run cron --pidfile=/var/run/sentry/celery-beat.pid"
+    env_vars:
+      SENTRY_CONF: /etc/sentry
+  notify: Restart sentry
+
+
+# These files must be present before the Restart sentry handler can run
+- name: Wait for sv supervise files to be ready
+  wait_for:
+    path: "/etc/sv/{{ item }}/supervise/ok"
+  with_items: "{{ sentry_components }}"

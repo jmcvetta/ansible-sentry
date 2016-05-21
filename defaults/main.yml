@@ -1,2 +1,36 @@
 ---
-# defaults file for jmcvetta.sentry
+
+
+# 
+# Database
+#
+sentry_db_engine: sentry.db.postgres
+sentry_db_name: sentry
+sentry_db_user: sentry
+sentry_db_password:
+sentry_db_host:
+sentry_db_port:
+
+#
+# Email Sending
+#
+sentry_mail_backend: 'smtp'  # Use dummy if you want to disable email entirely
+sentry_mail_host: 'localhost'
+sentry_mail_port: 25
+sentry_mail_username: ''
+sentry_mail_password: ''
+sentry_mail_use_tls: false
+# The email address to send on behalf of
+sentry_mail_from: 'root@localhost'
+
+#
+# Redis
+# 
+sentry_redis_host: 127.0.0.1
+sentry_redis_port: 6379
+
+# 
+# Web
+#
+sentry_web_host: '0.0.0.0'
+sentry_web_port: 9000
