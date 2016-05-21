@@ -1,3 +1,4 @@
+# vim:ft=ansible:
 galaxy_info:
   author: Jason McVetta <jason.mcvetta@gmail.com>
   description: Deploy Sentry server
@@ -134,7 +135,7 @@ galaxy_info:
   galaxy_tags: 
     - sentry
     - monitoring
-	- debugging
+    - debugging
 
 dependencies: 
   - gotansible.runit
