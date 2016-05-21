@@ -44,7 +44,7 @@
 
 
 - name: Ensure database is migrated
-  shell: "SENTRY_CONF=/etc/sentry {{ sentry_venv }}/bin/sentry upgrade"
+  shell: "SENTRY_CONF=/etc/sentry {{ sentry_venv }}/bin/sentry upgrade --noinput"
   register: result
   changed_when: "result.stdout.find('Migrating forwards') != -1"
 
