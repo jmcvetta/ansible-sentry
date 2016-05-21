@@ -52,7 +52,7 @@ project, p = Project.objects.get_or_create(
 
 key = ProjectKey.objects.filter(project=project)[0]
 key.public_key = '{{ sentry_client_public_key }}'
-key.private_key = '{{ sentry_client_private_key }}'
+key.secret_key = '{{ sentry_client_secret_key }}'
 key.save()
 
 if o or t or p:

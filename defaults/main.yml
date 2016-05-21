@@ -1,5 +1,7 @@
 ---
 
+# Sentry will run as this user
+sentry_user: sentry
 
 # 
 # Database
@@ -33,7 +35,7 @@ sentry_redis_port: 6379
 # Web
 #
 sentry_web_host: '0.0.0.0'
-sentry_web_port: 9000
+sentry_port: 9000
 
 #
 # Bootstrap

@@ -51,7 +51,7 @@
 
 - name: Ensure boostrap script is present
   template:
-    src: sentry-bootstrap.py.j2
+    src: bootstrap.py.j2
     dest: /root/sentry-boostrap.py
 
 
