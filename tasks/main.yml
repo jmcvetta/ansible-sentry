@@ -76,9 +76,17 @@
     state: present
 
 
-- name: Ensure /var/run/sentry exists
+- name: Ensure folder /var/run/sentry exists
   file:
     path: /var/run/sentry
+    state: directory
+    owner: sentry
+    group: sentry
+
+
+- name: Ensure folder /srv/sentry-files exists
+  file:
+    path: /srv/sentry-files
     state: directory
     owner: sentry
     group: sentry
