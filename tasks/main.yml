@@ -76,17 +76,17 @@
     state: present
 
 
-- name: Ensure folder /var/run/sentry exists
+- name: Ensure run folder exists
   file:
-    path: /var/run/sentry
+    path: "{{ sentry_run }}"
     state: directory
     owner: sentry
     group: sentry
 
 
-- name: Ensure folder /srv/sentry-files exists
+- name: Ensure sentry-files folder exists
   file:
-    path: /srv/sentry-files
+    path: "{{ sentry_files }}"
     state: directory
     owner: sentry
     group: sentry
