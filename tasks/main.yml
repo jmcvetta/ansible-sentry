@@ -121,7 +121,7 @@
     state: up
     timeout: 9
     user: sentry
-    command: "{{ sentry_venv }}/bin/sentry celery worker --pidfile=/var/run/sentry/celery-worker.pid"
+    command: "{{ sentry_venv }}/bin/sentry celery worker --pidfile={{ sentry_run }}/celery-worker.pid"
     env_vars:
       SENTRY_CONF: /etc/sentry
   notify: Restart sentry
@@ -134,7 +134,7 @@
     state: up
     timeout: 9
     user: sentry
-    command: "{{ sentry_venv }}/bin/sentry celery beat --pidfile=/var/run/sentry/celery-beat.pid"
+    command: "{{ sentry_venv }}/bin/sentry celery beat --pidfile={{ sentry_run }}/celery-beat.pid"
     env_vars:
       SENTRY_CONF: /etc/sentry
   notify: Restart sentry
