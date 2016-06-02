@@ -41,6 +41,7 @@
   with_items:
     - config.yml
     - sentry.conf.py
+  notify: Restart sentry
 
 
 - name: Ensure database is migrated
