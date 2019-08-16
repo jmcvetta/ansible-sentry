@@ -25,6 +25,7 @@
 
 - name: Ensure sentry is installed
   pip:
+    virtualenv_python: "python2.7"
     virtualenv: "{{ sentry_venv }}"
     name: sentry
     state: present
